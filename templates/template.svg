@@ -1,0 +1,114 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:py="http://genshi.edgewall.org/"
+     xml:space="preserve"
+     width="${svg_width}mm" height="${axis_top+axis_height+2.0+2.0*font_size*0.3528+axis_top-font_size*0.3528}mm">
+
+     <style type="text/css">
+          <![CDATA[
+
+               svg
+               {
+                    font-size: ${font_size/0.75};
+                    font-family: '$font';
+               }
+
+               text.label
+               {
+                    text-align: center;
+                    text-anchor: middle;
+                    font-family: '$font';
+               }
+
+               #xlabel
+               {
+                    text-align: center;
+                    text-anchor: middle;
+               }
+
+               #ylabel
+               {
+                    text-align: center;
+                    text-anchor: middle;
+               }
+
+               .tick-major
+               {
+                    stroke: #000000;
+                    clip-path: url(#axes-clip);
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+               }
+
+               .tick-label-x
+               {
+                    vertical-align: top;
+                    text-align: center;
+                    text-anchor: middle;
+                    dy: 0.71em;
+               }
+
+               .tick-label-y
+               {
+                    vertical-align: middle;
+                    text-align: right;
+                    text-anchor: end;
+               }
+
+               #axis-contents
+               {
+                    clip-path: url(#axes-clip);
+               }
+
+               .series, #axes
+               {
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+               }
+
+               .series
+               {
+                    fill: none;
+                    stroke: #ff0000;
+                    stroke-width: 0.353mm
+               }
+
+               #axes
+               {
+                    fill: none;
+                    stroke: #000000;
+                    stroke-width: 0.282mm;
+               }
+
+          ]]>
+     </style>
+
+     <clipPath id="axes-clip">
+          <use xlink:href="#axes" />
+     </clipPath>
+
+     <g id="axis-contents">
+          <path py:for="path_descriptor in series" class="series" d="${path_descriptor}"/>
+     </g>
+
+     <g py:for="tick in xticks">
+          <line py:if="tick['style'] == 'display'" x1="${tick['position']}mm" y1="${axis_top+axis_height}mm" x2="${tick['position']}mm" y2="${axis_top+axis_height-2}mm" class="tick-major"/>
+          <line py:if="tick['style'] == 'display'" x1="${tick['position']}mm" y1="${axis_top+2}mm" x2="${tick['position']}mm" y2="${axis_top}mm" class="tick-major"/>
+          <text x="${tick['position']}mm" y="${axis_top+axis_height+font_size*0.3528}mm" class="tick-label-x" style="font-size: ${font_size};">${tick['label']}</text>
+     </g>
+
+     <g py:for="tick in yticks">
+          <line py:if="tick['style'] == 'display'" x1="${axis_left}mm" y1="${tick['position']}mm" x2="${axis_left+2}mm" y2="${tick['position']}mm" class="tick-major"/>
+          <line py:if="tick['style'] == 'display'" x1="${axis_left+axis_width-2}mm" y1="${tick['position']}mm" x2="${axis_left+axis_width}mm" y2="${tick['position']}mm" class="tick-major"/>
+          <text x="${axis_left - 0.25*font_size*0.3528}mm" y="${tick['position']+0.3*font_size*0.3528}mm" class="tick-label-y" font-size="${font_size}">${tick['label']}</text>
+     </g>
+
+     <rect x="${axis_left}mm" y="${axis_top}mm" id="axes" width="${axis_width}mm" height="${axis_height}mm" />
+
+     <text x="${axis_left+0.5*axis_width}mm" y="${axis_top+axis_height+2.25*font_size*0.3528}mm" class="label" id="xlabel" font-size="${font_size}">$xlabel</text>
+
+     <text x="${-(axis_top+0.5*axis_height)}mm" y="${axis_left - 1.75*font_size*0.3528}mm" transform="rotate(-90)" class="label" id="ylabel" font-size="${font_size}">$ylabel</text>
+
+</svg>
