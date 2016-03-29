@@ -71,7 +71,6 @@
                .series
                {
                     fill: none;
-                    stroke: #ff0000;
                     stroke-width: 0.353mm
                }
 
@@ -90,7 +89,11 @@
      </clipPath>
 
      <g id="axis-contents">
-          <path py:for="path_descriptor in series" class="series" d="${path_descriptor}"/>
+		  <g py:for="path_descriptor in series">
+			<path class="series" style="stroke: ${path_descriptor[1]}" d="${path_descriptor[0]}"/>
+			<circle py:for="point in path_descriptor[2]" style="stroke: ${path_descriptor[1]}; fill: white;"
+						cx="${point[0]}" cy="${point[1]}" r="0.5mm" />
+		  </g>
      </g>
 
      <g py:for="tick in xticks">
